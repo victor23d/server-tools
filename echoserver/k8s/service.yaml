@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: echoserver
+  labels:
+    app: echoserver
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8443
+    - name: https
+      port: 8080
+      targetPort: 8080
+  selector:
+    app: echoserver
+  # type: NodePort
+  type: LoadBalancer

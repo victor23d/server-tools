@@ -5,7 +5,7 @@ metadata:
   labels:
     app: echoserver
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: echoserver
@@ -19,9 +19,11 @@ spec:
         - name: regcred
       containers:
         - name: echoserver
-          image: gcr.io/echoserver:1.10
+          # image: gcr.io/google-containers/echoserver:1.10 #8443
+          image: k8s.gcr.io/echoserver:1.10 #--port=8080
           ports:
-            - containerPort: 8443
+            - containerPort: 8080
+            # - containerPort: 8443
               #readinessProbe:
               # httpGet:
               #   path: /healthCheck

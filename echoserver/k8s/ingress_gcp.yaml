@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: echoserver
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: dengge-ip
+  labels:
+    app: echoserver
+
+spec:
+  rules:
+  - host: dengge.xyz
+    http:
+      paths: 
+      - path: /echo/*
+        backend:
+          serviceName: echoserver
+          # servicePort: 80
+          servicePort: 8080
+      - path: /aaa/*
+        backend:
+          serviceName: echoserver
+          servicePort: 80
+  # tls:
+  # - hosts:
+  #   - dengge.xyz
+  #   secretName: dengge-tls
