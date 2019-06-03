@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-app
+  labels:
+    app: backend-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend-app
+  template:
+    metadata:
+      labels:
+        app: backend-app
+      name: backend-app
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: cloudsql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.11
+          command:
+            [
+              "/cloud_sql_proxy",
+              "-instances=$(CSP_INSTANCE_NAME)=tcp:5432",
+              "-credential_file=/secrets/cloudsql/cloudsql-admin.json",
+            ]
+          env:
+            - name: CSP_INSTANCE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-app-env-config
+                  key: CSP_INSTANCE_NAME
+          volumeMounts:
+            - name: cloudsql-admin
+              mountPath: /secrets/cloudsql
+              readOnly: true
+
+        - name: backend-app
+          image: gcr.io/backend-app:1.10
+          ports:
+            - containerPort: 8443
+              #readinessProbe:
+              # httpGet:
+              #   path: /healthCheck
+              #   port: 80
+          envFrom:
+            - configMapRef:
+                name: backend-app-env-config
+
+          # read secret one by one
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: backend-app-env-secret
+                  key: POSTGRES_PASSWORD
+          volumeMounts:
+            - name: pubsub-admin
+              mountPath: /secrets/pubsub-admin
+
+      volumes:
+        - name: cloudsql-admin
+          secret:
+            secretName: cloudsql-admin
+        - name: pubsub-admin
+          secret:
+            secretName: pubsub-admin

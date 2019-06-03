@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echoserver
+  labels:
+    app: echoserver
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: echoserver
+  template:
+    metadata:
+      labels:
+        app: echoserver
+      name: echoserver
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: echoserver
+          image: gcr.io/echoserver:1.10
+          ports:
+            - containerPort: 8443
+              #readinessProbe:
+              # httpGet:
+              #   path: /healthCheck
+              #   port: 80
