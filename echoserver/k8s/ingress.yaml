@@ -3,8 +3,9 @@ kind: Ingress
 metadata:
   name: echoserver
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: dengge-ip #34.97.131.18
-    # nginx.ingress.kubernetes.io/rewrite-target: /
+    # kubernetes.io/ingress.global-static-ip-name: "dengge-ip" #34.97.131.18
+    kubernetes.io/ingress.global-static-ip-name: "dengge-ip-global" #35.244.158.145
+    nginx.ingress.kubernetes.io/rewrite-target: /
   labels:
     app: echoserver
 
