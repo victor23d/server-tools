@@ -14,12 +14,12 @@ spec:
   - http:
     # host: dengge.xyz
       paths: 
-      - path: /*
+      - path: /aaa/*
         backend:
           serviceName: echoserver
           # servicePort: 80
           servicePort: 8080
-      - path: /aaa/*
+      - path: /80/*
         backend:
           serviceName: echoserver
           servicePort: 80
