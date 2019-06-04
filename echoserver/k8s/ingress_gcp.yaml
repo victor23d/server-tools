@@ -3,16 +3,17 @@ kind: Ingress
 metadata:
   name: echoserver
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: dengge-ip
+    kubernetes.io/ingress.global-static-ip-name: dengge-ip #34.97.131.18
+    # nginx.ingress.kubernetes.io/rewrite-target: /
   labels:
     app: echoserver
 
 spec:
   rules:
-  - host: dengge.xyz
-    http:
+  - http:
+    # host: dengge.xyz
       paths: 
-      - path: /echo/*
+      - path: /
         backend:
           serviceName: echoserver
           # servicePort: 80
