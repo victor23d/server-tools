@@ -1,69 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-app
+  name: go-app
   labels:
-    app: backend-app
+    app: go-app
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: backend-app
+      app: go-app
   template:
     metadata:
       labels:
-        app: backend-app
-      name: backend-app
+        app: go-app
+      name: go-app
     spec:
-      imagePullSecrets:
-        - name: regcred
       containers:
-        - name: cloudsql-proxy
-          image: gcr.io/cloudsql-docker/gce-proxy:1.11
-          command:
-            [
-              "/cloud_sql_proxy",
-              "-instances=$(CSP_INSTANCE_NAME)=tcp:5432",
-              "-credential_file=/secrets/cloudsql/cloudsql-admin.json",
-            ]
-          env:
-            - name: CSP_INSTANCE_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: backend-app-env-config
-                  key: CSP_INSTANCE_NAME
-          volumeMounts:
-            - name: cloudsql-admin
-              mountPath: /secrets/cloudsql
-              readOnly: true
-
-        - name: backend-app
-          image: gcr.io/backend-app:1.10
+        - name: echoserver
+          image: gcr.io/pg-us-n-app-916555/ac/go-app:latest
           ports:
-            - containerPort: 8443
-              #readinessProbe:
-              # httpGet:
-              #   path: /healthCheck
-              #   port: 80
-          envFrom:
-            - configMapRef:
-                name: backend-app-env-config
-
-          # read secret one by one
-          env:
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: backend-app-env-secret
-                  key: POSTGRES_PASSWORD
-          volumeMounts:
-            - name: pubsub-admin
-              mountPath: /secrets/pubsub-admin
-
-      volumes:
-        - name: cloudsql-admin
-          secret:
-            secretName: cloudsql-admin
-        - name: pubsub-admin
-          secret:
-            secretName: pubsub-admin
+            - containerPort: 8080
+              readinessProbe:
+               httpGet:
+                 path: /asd
+                 port: 8080
