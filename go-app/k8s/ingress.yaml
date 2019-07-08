@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: go-app
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: ac-wuv-ip
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  labels:
+    app: go-app
+
+spec:
+  backend:
+    serviceName: echoserver
+    servicePort: 8080
+  rules:
+  - host: w.uvvv.icu
+    http:
+      paths: 
+      - path: /app/*
+        backend:
+          serviceName: webhook-center
+          servicePort: 8080
+  tls:
+  - hosts:
+    - w.uvvv.icu
+    secretName: uv-tls
