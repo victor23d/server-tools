@@ -16,11 +16,16 @@ spec:
       name: go-app
     spec:
       containers:
-        - name: echoserver
+        - name: go-app
           image: gcr.io/pg-us-n-app-916555/ac/go-app:latest
           ports:
             - containerPort: 8080
-              readinessProbe:
-               httpGet:
-                 path: /health
-                 port: 8080
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+          lifecycle:
+            postStart:
+              exec:
+                command: ["sh", "-c", "/app/scripts/PostStart.sh"]
+
