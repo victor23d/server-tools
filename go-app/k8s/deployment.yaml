@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: go-app
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: go-app
-          image: gcr.io/pg-us-n-app-916555/ac/go-app:latest
+          image: victor23d/go-app
           ports:
             - containerPort: 8080
           readinessProbe:
@@ -28,4 +28,6 @@ spec:
             postStart:
               exec:
                 command: ["sh", "-c", "/app/scripts/PostStart.sh"]
+                # command: ["sh", "-c", "/app/scripts/db-migrate.sh"]
+                # command: ["ls", "-R"]
 
