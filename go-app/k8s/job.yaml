@@ -1,7 +1,10 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: Job
 metadata:
-  name: go-app
+  name: db-migrate
+  # annotations:
+  #   "helm.sh/hook": pre-install,pre-upgrade
+  #   "helm.sh/hook-delete-policy": hook-succeeded
   labels:
     app: go-app
 spec:
@@ -22,7 +25,7 @@ spec:
             - containerPort: 8080
           readinessProbe:
             httpGet:
-              path: /readinessProbe
+              path: /health
               port: 8080
           lifecycle:
             postStart:
