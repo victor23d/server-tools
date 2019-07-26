@@ -1,9 +1,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: db-migrate
+  name: migrate-job
   labels:
-    app: db-migrate
+    app: migrate-job
     chart: helm-server-tools-0.1.0
     heritage: Helm
     release: v123
@@ -17,10 +17,11 @@ spec:
       terminationGracePeriodSeconds: 30
       restartPolicy: Never
       containers:
-        - name: db-migrate
+        - name: migrate-job
           image: victor23d/go-app:latest
+          imagePullPolicy: Always
           command:
-              - "/app/scripts/db-migrate.sh"
+              - "/app/scripts/migrate-job.sh"
               # ["sleep", "60"]
 
 
