@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: go-app
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: ac-iuv-ip
+    kubernetes.io/ingress.global-static-ip-name: iuv-ip
     nginx.ingress.kubernetes.io/rewrite-target: /
   labels:
     app: go-app
@@ -13,14 +13,30 @@ spec:
     serviceName: echoserver
     servicePort: 8080
   rules:
-  - host: i.uvvv.icu
+  - host: icu.uvvv.icu
     http:
       paths: 
-      - path: /app/*
+      - path: /go-app/*
         backend:
           serviceName: go-app
           servicePort: 8080
+      - path: /hpa/*
+        backend:
+          serviceName: php-apache
+          servicePort: 80
+  - host: i.uvvv.icu
+    http:
+      paths: 
+      - path: /go-app/*
+        backend:
+          serviceName: go-app
+          servicePort: 8080
+      - path: /hpa/*
+        backend:
+          serviceName: php-apache
+          servicePort: 80
   tls:
   - hosts:
+    - icu.uvvv.icu
     - i.uvvv.icu
-    secretName: uv-tls
+    secretName: not-uv-tls
