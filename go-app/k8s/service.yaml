@@ -11,3 +11,5 @@ spec:
   selector:
     app: go-app
   type: NodePort
+
+---
