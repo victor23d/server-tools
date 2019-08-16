@@ -20,6 +20,10 @@ spec:
         backend:
           serviceName: go-app
           servicePort: 8080
+      - path: /hpa/*
+        backend:
+          serviceName: php-apache
+          servicePort: 80
   - host: i.uvvv.icu
     http:
       paths: 
@@ -27,8 +31,12 @@ spec:
         backend:
           serviceName: go-app
           servicePort: 8080
-  # tls:
-  # - hosts:
-  #   - icu.uvvv.icu
-  #   - i.uvvv.icu
-  #   secretName: not-uv-tls
+      - path: /hpa/*
+        backend:
+          serviceName: php-apache
+          servicePort: 80
+  tls:
+  - hosts:
+    - icu.uvvv.icu
+    - i.uvvv.icu
+    secretName: not-uv-tls

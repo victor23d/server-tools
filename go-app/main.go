@@ -23,12 +23,16 @@ func GetIP(w http.ResponseWriter, r *http.Request) {
 
 	XRealIP := r.Header.Get("X-Real-Ip")
 	fmt.Fprintf(w, "X-Real-Ip: "+XRealIP+"\n")
+	log.Print("X-Real-Ip: " + XRealIP + "\n")
 
 	XForwardFor := r.Header.Get("X-Forwarded-For")
 	fmt.Fprintf(w, "X-Forwarded-For: "+XForwardFor+"\n")
+	log.Print("X-Forwarded-For: " + XForwardFor + "\n")
 
 	RemoteAddr := r.RemoteAddr
 	fmt.Fprintf(w, "RemoteAddr: "+RemoteAddr+"\n")
+	log.Print("RemoteAddr: " + RemoteAddr + "\n")
+	log.Println()
 }
 
 func main() {

@@ -40,14 +40,14 @@ spec:
               port: 8080
           envFrom:
           - configMapRef:
-              name: go-app
-          - secretRef:
-              name: go-app
-          volumeMounts:
-            - name: server-tools-secret
-              mountPath: /secrets/server-tools-secret
-      volumes:
-        - name: server-tools-secret
-          secret:
-            secretName: server-tools-secret
+              name: go-app-env
+          # - secretRef:
+          #     name: go-app
+          # volumeMounts:
+          #   - name: server-tools-secret
+          #     mountPath: /secrets/server-tools-secret
+      # volumes:
+        # - name: server-tools-secret
+          # secret:
+          #   secretName: server-tools-secret
 
