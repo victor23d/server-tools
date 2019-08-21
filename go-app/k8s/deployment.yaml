@@ -29,10 +29,14 @@ spec:
             httpGet:
               path: /livenessProbe
               port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 120
           readinessProbe:
             httpGet:
               path: /readinessProbe
               port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 120
           lifecycle:
             postStart:
               exec:

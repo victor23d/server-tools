@@ -16,4 +16,5 @@ spec:
     app: echoserver
   # type: NodePort
   type: LoadBalancer
+  externalTrafficPolicy: Local
   # loadBalancerIP: "34.97.131.18"
