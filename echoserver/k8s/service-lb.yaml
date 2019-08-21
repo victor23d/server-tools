@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: echoserver
+  name: echoserver-lb
   labels:
     app: echoserver
 spec:
@@ -14,6 +14,7 @@ spec:
       targetPort: 8080
   selector:
     app: echoserver
-  type: NodePort
-  # type: LoadBalancer
+  # type: NodePort
+  type: LoadBalancer
   externalTrafficPolicy: Local
+  # loadBalancerIP: "34.97.131.18"
