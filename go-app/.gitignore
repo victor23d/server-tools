@@ -61,3 +61,12 @@ dock.sh
 GoBuilds
 dist
 
+# certs
+*.crt
+*.cert
+*.csr
+*.key
+*.pem
+/.blackbox/pubring.gpg~
+/.blackbox/pubring.kbx~
+/.blackbox/secring.gpg
