@@ -38,16 +38,16 @@ func GetInfo(w http.ResponseWriter, r *http.Request) error {
 
 	host, _ := os.Hostname()
 	log.Info(host)
-	log.Infof("r.URL.Path: %s\n", r.URL.Path)
 	_, err := w.Write([]byte("hostname: " + host + "\n"))
 	if err != nil {
 		return err
 	}
-	_, err = fmt.Fprintf(w, "r.URL.Path: %s\n", r.URL.Path)
+	log.Infof("r.URL.Path: %s", r.URL.Path)
+	_, err = fmt.Fprintf(w, "r.URL.Path: %s", r.URL.Path)
 	if err = r.ParseForm(); err != nil {
 		return err
 	}
-	log.Infof("Form %s\n", r.Form)
+	log.Infof("Form %s", r.Form)
 	fmt.Fprintf(w, "Form %s\n", r.Form)
 
 	return err
@@ -56,16 +56,16 @@ func GetInfo(w http.ResponseWriter, r *http.Request) error {
 func GetIP(w http.ResponseWriter, r *http.Request) error {
 
 	XRealIP := r.Header.Get("X-Real-Ip")
+	log.Infof("X-Real-Ip: %s", XRealIP)
 	_, err := fmt.Fprintf(w, "X-Real-Ip: %s\n", XRealIP)
-	log.Infof("X-Real-Ip: %s\n", XRealIP)
 
 	XForwardFor := r.Header.Get("X-Forwarded-For")
+	log.Infof("X-Forwarded-For: %s", XForwardFor)
 	_, err = fmt.Fprintf(w, "X-Forwarded-For: %s\n", XForwardFor)
-	log.Infof("X-Forwarded-For: %s\n", XForwardFor)
 
 	RemoteAddr := r.RemoteAddr
+	log.Infof("RemoteAddr: %s", RemoteAddr)
 	_, err = fmt.Fprintf(w, "RemoteAddr: %s\n", RemoteAddr)
-	log.Infof("RemoteAddr: %s\n", RemoteAddr)
 	return err
 }
 
