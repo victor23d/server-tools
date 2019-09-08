@@ -1,6 +1,7 @@
-set -e ; set -x
+#! /bin/sh
+set -ex
 echo "run scripts/PostStart.sh"
 echo "a.sh start"
-# /app/scripts/a.sh
+/app/scripts/fail.sh
 echo "a.sh done"
 
