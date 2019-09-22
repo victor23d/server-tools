@@ -27,3 +27,6 @@ spec:
           envFrom:
           - configMapRef:
               name: env-config
+          command:
+            - sleep
+            - "24h"
