@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: golang113
+  labels:
+    app: golang113
+  annotations:
+    "helm.sh/hook-weight": "5"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: golang113
+  template:
+    metadata:
+      labels:
+        app: golang113
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: golang113
+          image: golang:1.13-alpine
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          envFrom:
+          - configMapRef:
+              name: env-config
