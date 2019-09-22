@@ -43,9 +43,9 @@ spec:
                 command: ["sh", "-c", "/app/scripts/PostStart.sh"]
           envFrom:
           - configMapRef:
-              name: go-app-env
+              name: env-config
           # - secretRef:
-          #     name: go-app
+          #     name: secret-config
           # volumeMounts:
           #   - name: server-tools-secret
           #     mountPath: /secrets/server-tools-secret
