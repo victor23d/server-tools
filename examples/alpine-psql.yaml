@@ -1,0 +1,25 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: alpine-psql
+  labels:
+    app: alpine-psql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alpine-psql
+  template:
+    metadata:
+      labels:
+        app: alpine-psql
+    spec:
+      containers:
+        - image: alpine
+          name: alpine-psql
+          ports:
+            - containerPort: 80
+              name: http
+          command:
+            ["ash", "-c", "apk update && apk add postgresql && sleep 10000000000"]
