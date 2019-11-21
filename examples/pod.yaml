@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dapi-test-pod
+spec:
+  containers:
+  - name: test-container
+    image: k8s.gcr.io/busybox
+    command: [ "/bin/sh", "-c", "sleep 500" ]
+    # volumeMounts:
+    # - name: config-volume
+    #   mountPath: /etc/config
+    # - name: mysecret-data-volume
+    #   mountPath: /secrets
+    envFrom:
+    - configMapRef:
+        name: test-config
+    - secretRef:
+        name: gql-secret
+
+    env:
+    - name: CONFIG
+      valueFrom:
+        secretKeyRef:
+          name: mysecret-data
+          key: config.yaml
+    - name: USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: mysecret-data
+          key: username
+  restartPolicy: Never
+
+          # volumes:
+          #   - name: config-volume
+          #     configMap:
+          #       name: special-config
+          #   - name: mysecret-data-volume
+          #     secret:
+          #       secretName: test-secret
+

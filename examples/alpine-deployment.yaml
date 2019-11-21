@@ -1,0 +1,43 @@
+# kind: PersistentVolumeClaim
+# apiVersion: v1
+# metadata:
+#   name: alpine-volumeclaim
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 1Gi
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: alpine
+  labels:
+    app: alpine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alpine
+  template:
+    metadata:
+      labels:
+        app: alpine
+    spec:
+      containers:
+        - image: alpine
+          name: alpine
+          ports:
+            - containerPort: 80
+              name: http
+          args:
+          - sleep
+          - "1000000000"
+          # volumeMounts:
+          #   - name: alpine-persistent-storage
+          #     mountPath: /root/
+      # volumes:
+        # - name: alpine-persistent-storage
+          # persistentVolumeClaim:
+          #   claimName: alpine-volumeclaim

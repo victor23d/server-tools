@@ -24,9 +24,9 @@ spec:
           ports:
             - containerPort: 8080
               protocol: TCP
-          envFrom:
-          - configMapRef:
-              name: env-config
+          # envFrom:
+          # - configMapRef:
+              # name: env-config
           command:
             - sleep
             - "3650d"

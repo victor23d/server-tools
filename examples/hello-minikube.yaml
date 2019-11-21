@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: hello-minikube
+  name: hello-minikube
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: hello-minikube
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: hello-minikube
+    spec:
+      containers:
+      - image: nginx:stable-alpine
+        # imagePullPolicy: IfNotPresent
+        imagePullPolicy: Never
+        name: hello-minikube
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
