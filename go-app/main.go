@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 )
 
 var (
@@ -32,6 +33,8 @@ func echoserver(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	now := time.Now()
+	fmt.Fprintf(w, "Now: %s\n", now.Format(time.RFC3339))
 }
 
 func GetInfo(w http.ResponseWriter, r *http.Request) error {
@@ -43,7 +46,7 @@ func GetInfo(w http.ResponseWriter, r *http.Request) error {
 		return err
 	}
 	log.Infof("r.URL.Path: %s", r.URL.Path)
-	_, err = fmt.Fprintf(w, "r.URL.Path: %s", r.URL.Path)
+	_, err = fmt.Fprintf(w, "r.URL.Path: %s\n", r.URL.Path)
 	if err = r.ParseForm(); err != nil {
 		return err
 	}
@@ -69,6 +72,3 @@ func GetIP(w http.ResponseWriter, r *http.Request) error {
 	return err
 }
 
-func init() {
-	// 面对疾风吧！
-}

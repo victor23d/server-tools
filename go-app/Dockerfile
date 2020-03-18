@@ -1,12 +1,14 @@
-FROM golang:1.13-alpine
+FROM golang:1.13-alpine AS ci
 WORKDIR /app
 ADD . /app
-# RUN  go install -v -mod=vendor go-app
-RUN go get -v && go install -v go-app
+ENV CGO_ENABLED=0
+RUN go test -v -mod=vendor
+# RUN go get -v && go install -v go-app
 
-FROM alpine:latest
+FROM ci AS build
+RUN go install -v -mod=vendor /app/main.go
+
+FROM alpine:latest AS release
 WORKDIR /app
-COPY --from=0 /go/bin/go-app /app/
-COPY --from=0 /app/scripts /app/scripts/
-ENV PORT 8080
-CMD ["/app/go-app"]
+COPY --from=build /go/bin/main /app/
+CMD ["/app/main"]
