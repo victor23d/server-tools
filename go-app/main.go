@@ -69,6 +69,10 @@ func GetIP(w http.ResponseWriter, r *http.Request) error {
 	RemoteAddr := r.RemoteAddr
 	log.Infof("RemoteAddr: %s", RemoteAddr)
 	_, err = fmt.Fprintf(w, "RemoteAddr: %s\n", RemoteAddr)
+
+	UserAgent := r.Header.Get("User-Agent")
+	log.Infof("User-Agent: %s", UserAgent)
+	_, err = fmt.Fprintf(w, "User-Agent: %s\n", UserAgent)
+
 	return err
 }
-

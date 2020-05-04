@@ -9,7 +9,7 @@
 #     requests:
 #       storage: 1Gi
 ---
-apiVersion: extensions/v1beta1
+apiVersion: v1
 kind: Deployment
 metadata:
   name: alpine
