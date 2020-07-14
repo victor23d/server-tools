@@ -22,13 +22,13 @@ var (
 
 
 func main() {
- 	flag.BoolVar(&qa, "qa", false, "enable qa mode")
- 	flag.Parse()
- 	serve()
-
+	flag.BoolVar(&qa, "qa", false, "enable qa mode")
+	flag.Parse()
+	serve()
 }
 
 func serve(){
+	if qa == true {log.Info(" QA mode enabled")}
 	http.HandleFunc("/", echoserver)
 	port := 8080
 	log.Infof("listen: %s", strconv.Itoa(port))
