@@ -29,14 +29,14 @@ spec:
               path: /livenessProbe
               port: 8080
             initialDelaySeconds: 5
-            periodSeconds: 120
+            periodSeconds: 60
           readinessProbe:
             httpGet:
               path: /readinessProbe
               port: 8080
             initialDelaySeconds: 5
-            periodSeconds: 120
-          command: ["sh", "-c", "/app/go-app -qa"]
+            periodSeconds: 60
+          command: ["sh", "-c", "/root/app -qa"]
           # lifecycle:
           #   postStart:
           #     exec:
