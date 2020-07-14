@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 	"time"
+	"flag"
 )
 
 var (
@@ -14,7 +15,20 @@ var (
 	log       = logger.Sugar()
 )
 
+var (
+	qa bool
+	count = 1
+)
+
+
 func main() {
+ 	flag.BoolVar(&qa, "qa", false, "enable qa mode")
+ 	flag.Parse()
+ 	serve()
+
+}
+
+func serve(){
 	http.HandleFunc("/", echoserver)
 	port := 8080
 	log.Infof("listen: %s", strconv.Itoa(port))
@@ -25,6 +39,19 @@ func main() {
 }
 
 func echoserver(w http.ResponseWriter, r *http.Request) {
+	if count == 11 { count = 1 }
+	//if count > 10 { count = 1 }
+	if qa == true{
+		if count == 4 {
+			http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+			count ++
+			return
+		}else if count ==5 {
+			http.Error(w,http.StatusText(http.StatusInternalServerError),http.StatusInternalServerError)
+			count ++
+			return
+		}
+	}
 	err := GetInfo(w, r)
 	if err != nil {
 		log.Fatal(err)
@@ -35,6 +62,10 @@ func echoserver(w http.ResponseWriter, r *http.Request) {
 	}
 	now := time.Now()
 	fmt.Fprintf(w, "Now: %s\n", now.Format(time.RFC3339))
+	fmt.Fprintf(w, "count: %d\n",count)
+	log.Infof("count: %d", count)
+	count ++
+	log.Info("========================================")
 }
 
 func GetInfo(w http.ResponseWriter, r *http.Request) error {
