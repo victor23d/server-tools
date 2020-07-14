@@ -36,13 +36,14 @@ spec:
               port: 8080
             initialDelaySeconds: 5
             periodSeconds: 120
-          lifecycle:
-            postStart:
-              exec:
-                command: ["sh", "-c", "/app/scripts/PostStart.sh"]
-          envFrom:
-          - configMapRef:
-              name: env-config
+          command: ["sh", "-c", "/app/go-app -qa"]
+          # lifecycle:
+          #   postStart:
+          #     exec:
+          #       command: ["sh", "-c", "/app/scripts/PostStart.sh"]
+          # envFrom:
+          # - configMapRef:
+          #     name: env-config
           # - secretRef:
           #     name: secret-config
           # volumeMounts:
