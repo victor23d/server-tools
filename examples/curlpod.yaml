@@ -23,8 +23,10 @@ spec:
         # - -c
         # - while true; do sleep 10; done
         command:
-          - sleep 
-          - "1000"
+          # - sleep 
+          # - "1000"
+          - curl
+          - ip.sb
         image: radial/busyboxplus:curl
         # volumeMounts:
         # - mountPath: /etc/nginx/ssl

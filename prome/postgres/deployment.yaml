@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: postgres-exporter
+  name: postgres-exporter
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: postgres-exporter
+  template:
+    metadata:
+      labels:
+        app: postgres-exporter
+    spec:
+      containers:
+      - name: postgres-exporter
+        image: wrouesnel/postgres_exporter
+        env:
+        - name: DATA_SOURCE_NAME
+          value: postgresql://prometheus:123@35.231.191.159:5432/postgres?sslmode=disable
+        ports:
+        - containerPort: 9187
+          protocol: TCP
+      imagePullSecrets:
+      - name: regcred
