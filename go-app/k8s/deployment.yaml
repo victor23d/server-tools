@@ -4,8 +4,8 @@ metadata:
   name: go-app
   labels:
     app: go-app
-  annotations:
-    "helm.sh/hook-weight": "5"
+  # annotations:
+    # "helm.sh/hook-weight": "5"
 spec:
   replicas: 1
   selector:
@@ -21,22 +21,22 @@ spec:
       containers:
         - name: go-app
           image: victor23d/go-app:latest
+          command: ["sh", "-c", "/root/app -qa"]
           ports:
             - containerPort: 8080
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /livenessProbe
-              port: 8080
-            initialDelaySeconds: 5
-            periodSeconds: 60
-          readinessProbe:
-            httpGet:
-              path: /readinessProbe
-              port: 8080
-            initialDelaySeconds: 5
-            periodSeconds: 60
-          command: ["sh", "-c", "/root/app -qa"]
+          # livenessProbe:
+          #   httpGet:
+          #     path: /livenessProbe
+          #     port: 8080
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 60
+          # readinessProbe:
+          #   httpGet:
+          #     path: /readinessProbe
+          #     port: 8080
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 60
           # lifecycle:
           #   postStart:
           #     exec:
