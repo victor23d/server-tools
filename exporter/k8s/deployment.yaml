@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exporter
+  labels:
+    app: exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exporter
+  template:
+    metadata:
+      labels:
+        app: exporter
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: exporter
+          image: victor23d/exporter:latest
+          command: ["sh", "-c", "/root/app -qa"]
+          ports:
+            - containerPort: 80
+              protocol: TCP
