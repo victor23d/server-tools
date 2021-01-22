@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bench
+  labels:
+    app: bench
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bench
+  template:
+    metadata:
+      labels:
+        app: bench
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: bench
+          image: victor23d/bench:latest
+          command: ["sh", "-c", "/root/app -qa"]
+          ports:
+            - containerPort: 80
+              protocol: TCP
