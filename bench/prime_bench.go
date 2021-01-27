@@ -19,7 +19,6 @@ var (
 	wg        sync.WaitGroup
 	logger, _ = zap.NewProduction()
 	log       = logger.Sugar()
-	pb        PrimeBench
 )
 
 type PrimeBench struct {
@@ -39,7 +38,7 @@ func main() {
 
 	port := 80
 
-	pb = PrimeBench{
+	pb := PrimeBench{
 		Proc:  0,
 		Job:   1,
 		Prime: 100000,
@@ -58,19 +57,19 @@ func main() {
 
 func handleV(c *gin.Context) {
 	var pb PrimeBench
+	//default zero pb
+	//if pb.Prime == 0 {
+	pb.Prime = 100000
+	//}
+	//if pb.Job == 0 {
+	pb.Job = 1
+	//}
 	if err := c.ShouldBind(&pb); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	log.Infof("%v", pb)
 
-	//default zero pb
-	if pb.Prime == 0 {
-		pb.Prime = 100000
-	}
-	if pb.Job == 0 {
-		pb.Job = 1
-	}
 	hostname, _ := os.Hostname()
 
 	cpu := runtime.NumCPU()
@@ -128,7 +127,7 @@ func FindAllPrime(start uint64, end uint64) []uint64 {
 			//println(i)
 		}
 	}
-	print(len(primes))
+	//print(len(primes))
 	wg.Done()
 
 	return primes
