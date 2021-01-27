@@ -85,13 +85,13 @@ func handleV(c *gin.Context) {
 
 	user1, idle1, total1 := getCPUSample()
 	idleTicks := idle1 - idle0
-	//fmt.Printf("%f\n",idleTicks)
+	//fmt.Printf("%d\n",idleTicks)
 	totalTicks := total1 - total0
 	userTicks := user1 - user0
-	//fmt.Printf("%f\n",totalTicks)
+	//fmt.Printf("%d\n",totalTicks)
 	cpuUsage := float64(100 * float64(totalTicks-idleTicks) / float64(totalTicks))
 
-	s := fmt.Sprintf("CPU usage is %f%% [busy: %f, total: %f]\n", cpuUsage, totalTicks-idleTicks, totalTicks)
+	s := fmt.Sprintf("CPU usage is %f%% [busy: %d, total: %d]\n", cpuUsage, totalTicks-idleTicks, totalTicks)
 	fmt.Println(s)
 
 	c.JSON(http.StatusOK, gin.H{
