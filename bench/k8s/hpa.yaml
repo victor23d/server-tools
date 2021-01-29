@@ -1,0 +1,32 @@
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: bench
+  namespace: custom-metrics
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: bench
+  maxReplicas: 4
+  minReplicas: 1
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        averageUtilization: 50
+        type: Utilization
+        # type: AverageValue
+    
+  # custom metric
+  - type: Pods
+    pods:
+      metric:
+        name: http_requests_total
+      # metricName: http_requests_total
+      target:
+        type: AverageValue
+        averageValue: 10
+      # targetAverageValue: 10
+
