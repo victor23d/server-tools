@@ -1,4 +1,4 @@
-package main
+package benchs
 
 import (
 	"fmt"
@@ -34,53 +34,33 @@ type CPU struct {
 	Total uint64 `json:"total"`
 }
 
-func main() {
-
-	port := 80
-
-	pb := PrimeBench{
+var (
+	Pb = PrimeBench{
 		Proc:  0,
 		Job:   1,
 		Prime: 100000,
 	}
+)
 
-	r := gin.Default()
-	r.GET("/prime", func(c *gin.Context) {
-		//c.JSON(200, gin.H{
-		//	"value": pb,
-		//)}
-		c.String(http.StatusOK, "%v", pb)
-	})
-	r.POST("/prime", handleV)
-	r.Run(":" + strconv.Itoa(port))
-}
 
-func handleV(c *gin.Context) {
-	var pb PrimeBench
-	//default zero pb
-	//if pb.Prime == 0 {
-	pb.Prime = 100000
-	//}
-	//if pb.Job == 0 {
-	pb.Job = 1
-	//}
-	if err := c.ShouldBind(&pb); err != nil {
+func HandleP(c *gin.Context) {
+	if err := c.ShouldBind(&Pb); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	log.Infof("%v", pb)
+	log.Infof("%+v\n", Pb)
 
 	hostname, _ := os.Hostname()
 
 	cpu := runtime.NumCPU()
 	//fmt.Println(IsPrime(5212344341))
-	runtime.GOMAXPROCS(pb.Proc)
+	runtime.GOMAXPROCS(Pb.Proc)
 
 	// Calculate cpu usage
 	user0, idle0, total0 := getCPUSample()
 
 	// prime_bench
-	duration := DoWork(pb.Job, pb.Prime)
+	duration := DoWork(Pb.Job, Pb.Prime)
 
 	user1, idle1, total1 := getCPUSample()
 	idleTicks := idle1 - idle0
@@ -102,7 +82,7 @@ func handleV(c *gin.Context) {
 			Idle:  idleTicks,
 			Total: totalTicks,
 		},
-		"pb":       pb,
+		"Pb":       Pb,
 		"hostname": hostname,
 		"cpuUsage": cpuUsage,
 	})
