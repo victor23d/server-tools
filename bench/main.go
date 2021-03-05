@@ -9,6 +9,10 @@ import (
 )
 
 func main() {
+
+	// alloc 100mb at start up
+	benchs.MakeBlock(100)
+
 	port := 80
 	r := gin.Default()
 	r.GET("/prime", func(c *gin.Context) {
