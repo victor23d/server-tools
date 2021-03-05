@@ -7,7 +7,7 @@ RUN go test -v -mod=vendor
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
 
 FROM alpine:latest AS release
-RUN apk --no-cache add ca-certificates
+RUN apk --no-cache add ca-certificates curl
 WORKDIR /root/
 COPY --from=builder /app/app .
 CMD ["./app"]

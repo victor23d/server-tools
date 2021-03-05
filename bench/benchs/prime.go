@@ -42,7 +42,6 @@ var (
 	}
 )
 
-
 func HandleP(c *gin.Context) {
 	if err := c.ShouldBind(&Pb); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
