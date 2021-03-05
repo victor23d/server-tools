@@ -53,16 +53,23 @@ func MakeBlock(mb int) [][]int {
 	runtime.GC()
 	time.Sleep(2 * time.Second)
 
-	// [130000]int ~= 1mb
-	//               length, capacity
-	a := make([]int, 130000, 130000)
-	rand.Seed(time.Now().UnixNano())
-	r := rand.Intn(999)
-	for i := 0; i < len(a); i++ {
-		a[i] = r
-	}
 	//make new blocks
 	for i := 0; i < mb; i++ {
+		// to not be cached in system
+		rand.Seed(time.Now().UnixNano())
+		//range r = 2^ 64 -1 = 18446744073709551600
+		//-9000000000000000000 < r < 9000000000000000000
+		//r := 1
+		// size of r = 1 and r = 9000000000000000000 are equal
+		r := rand.Intn(999)
+
+		// make []a must inside loop, otherwise memory consumption is much much smaller.
+		// [130000]int ~= 1mb
+		//               length, capacity
+		a := make([]int, 130000, 130000)
+		for i := 0; i < len(a); i++ {
+			a[i] = r
+		}
 		blocks = append(blocks, a)
 	}
 	log.Infof("%+v\n", GetMemUsage())
@@ -80,7 +87,7 @@ func HandleM(c *gin.Context) {
 	}
 	log.Infof("%+v\n", m)
 
-	MakeBlock(m.MemSize)
+	b := MakeBlock(m.MemSize)
 
 	hostname, _ := os.Hostname()
 
@@ -88,6 +95,15 @@ func HandleM(c *gin.Context) {
 		//"status": "success",
 		"hostname": hostname,
 		"memUsage": GetMemUsage(),
+		//"rand":     b[0][0],
+		//"lenOf1MB": len(b),
+		"debug": struct {
+			rand     int
+			lenOf1MB int
+		}{
+			rand:     b[0][0],
+			lenOf1MB: len(b),
+		},
 	})
 }
 
