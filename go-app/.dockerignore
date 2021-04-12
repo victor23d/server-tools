@@ -6,3 +6,6 @@
 .circleci
 docs
 examples
+
+helm
+k8s
