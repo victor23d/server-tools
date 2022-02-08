@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jetty
+  labels:
+    app: jetty
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jetty
+  template:
+    metadata:
+      labels:
+        app: jetty
+      name: jetty
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: jetty
+          # image: gcr.io/google-containers/jetty:1.10 #8443
+          image: jetty
+          ports:
+            - containerPort: 8080
+            # - containerPort: 8443
+              #readinessProbe:
+              # httpGet:
+              #   path: /healthCheck
+              #   port: 80
